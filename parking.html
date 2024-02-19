@@ -1,9 +1,291 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html>
 <head>
-  <title>My Blank HTML Page</title>
+  <meta charset="utf-8">
+  <title>Mein Promille Rechner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mein Promille Rechner">
+  <meta name="author" content="Elias Camenzind">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src ="js/time_validierung.js"></script>
+  
+
+  <!-- Anforderung: Einbindung W3.CSS mittels absoluter URL -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <!-- Link zu eigenem Stylesheet-->
+  <link rel="stylesheet" href="css/style.css">
+
 </head>
+
 <body>
-  Test
+  <header class ="w3-container w3-content">
+   
+    <!-- Anforderung: Responsives Layout für Abschnitt Navigation -->
+    <nav class="w3-bar w3-blue">
+        <a href="#info" class ="w3-bar-item w3-button w3-col m3">Information</a>
+        <a href="#formular" class ="w3-bar-item w3-button w3-col m3 w3-hide-small">Formular</a>
+        <a href="#canvas" class ="w3-bar-item w3-button w3-col m3 w3-hide-small">Canvas</a>
+        <a href="#zusatztechnik" class ="w3-bar-item w3-button w3-col m3 w3-hide-small">Zusatztechnik</a>
+        <button class ="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium"
+        onclick="document.getElementById('sub').classList.toggle('w3-hide');">&#x2261;</button>
+    </nav>
+
+    <div id="sub" class="w3-bar-block w3-blue w3-hide">
+      <a href="#formular" class ="w3-bar-item w3-button">Formular</a>
+      <a href="#canvas" class ="w3-bar-item w3-button">Canvas</a>
+      <a href="#zusatztechnik" class ="w3-bar-item w3-button">Zusatztechnik</a>
+    </div>
+  </header>
+
+  <article class= "w3-container w3-margin w3-padding">
+    
+    <!-- Anforderung: Responsiver Informationsabschnitt mit mindestens einem Bild und einem Paragraphenelement -->
+    
+    <section id = "info" class= "w3-container w3-content w3-light-grey">
+      <div class= "w3-col m6">
+        <h3 class = "ueberschriften">Online Promille Rechner</h3>
+        <p>Sind sie noch fahrtüchtig? Dieser Online Rechner berechnet anhand Ihren persönlichen Angaben und der Menge an getrunkenem Alkohol
+          ihr Blutalkoholgehalt. 
+          <br>
+          <br>
+          Im Abschnitt Zusatztechnik können Sie Ihre getrunkene Alkoholmenge in Real-Time berechnen und erhalten eine maximale Konsumempfehlung aufgrund Ihres Geschlechts.
+          <br>
+          <br>
+          Dieser Rechner gibt keine Auskunft über ihr tatsächliches Blutalkoholgehalt und stellt nur eine Schätzung dar.
+          <br>
+          <br>
+          <b>Never Drink and Drive!</b>
+        </p>
+      </div>
+
+      <div class="w3-col m6 w3-center">
+        <img src="img/drink_and_drive.jpg" alt="asian man drinking in a car" style="width:100%">
+      </div>
+    </section>
+
+    <!-- Anforderung: Formular mit mindestens drei Inputelementen unterschiedlichen Typs und deklarative Validierung-->
+    <section id = "formular" class= "w3-container w3-content w3-light-grey">
+      <h3 class="ueberschriften">Blutalkoholgehalt Rechner</h3>
+      <form action= "server.php" method= "POST">
+      
+        
+        <h4>Persönliche Angaben </h4>
+        <fieldset>
+          <legend>Name</legend>
+          <label for="vorname">Vorname</label>
+          <input type="text" name="vorname" id="vorname" required>
+          <br>
+          <br>
+          <label for="nachname">Nachname</label>
+          <input type="text" name="nachname" id="nachname" required>
+          
+        </fieldset>
+        <fieldset>
+          <legend>Geschlecht</legend>
+          <label for="männlich">Männlich</label>
+          <input type="radio" name="geschlecht" id="männlich" value="männlich" required>
+        
+          <label for="weiblich">Weiblich</label>
+          <input type="radio" name="geschlecht" id="weiblich" value="weiblich" required>
+
+        </fieldset>
+        
+        <fieldset>
+          <legend>Alter</legend>
+          <label for="age"> Alter</label>
+          <input type="number" name="alter" id="age" min="16" required>
+        </fieldset>
+        
+        <fieldset>
+          <legend>Gewicht</legend>
+          <label for="weight">Gewicht (kg)</label>
+          <input type="number" name="gewicht" id="weight" min="20" required>
+        </fieldset>
+
+        <fieldset>
+          <legend>Körpergrösse</legend>
+          <label for="height">Grösse (cm)</label>
+          <input type="number" name="groesse" id="height" min="50" required>
+        </fieldset>
+
+        <h4>Angaben zum Alkoholkonsum</h4>
+
+        <fieldset>
+          <legend>Bier</legend>
+          <label for="small_beer">Kleines Bier (0.33 Liter ~ 5% Vol.)</label>
+          <input type="number" name="small_beer" id="small_beer" value=0 min="0" required>
+          <br>
+          <br>
+          <label for="big_beer">Grosses Bier (0.50 Liter ~ 5% Vol.)</label>
+          <input type="number" name="big_beer" id="big_beer" value=0 min="0" required>
+        </fieldset>
+
+        <fieldset>
+          <legend>Wein</legend>
+          <label for="glass_wine"> Glas Wein (0.2 Liter ~ 12% Vol.)
+          <input type="number" name="glass_wine" id="glass_wine" value=0 min="0" required>
+        </fieldset>
+
+        <fieldset>
+          <legend>Spirituosen</legend>
+          <label for="shot">Shot Vodka, Gin, Tequila, Rum, Scotch, Whisky etc. (0.02 Liter ~ 40% Vol.)</label>
+          <input type="number" name="shot" id="shot" value=0 min="0" required>
+        </fieldset> 
+
+
+        <!-- Anforderung: Programmatische Validierung mit JavaScript -->
+        <fieldset>
+          <legend>Trinkzeit</legend>
+          <label for="start_time">Stunden seit erstem Alkoholkonsum</label>
+          <select onchange="compareTime()" name ="start_time" id="start_time">
+            <option value = "0">0 Stunden</option>
+            <option value = "1">1 Stunde</option>
+            <option value = "2">2 Stunden</option>
+            <option value = "3">3 Stunden</option>
+            <option value = "4">4 Stunden</option>
+            <option value = "5">5 Stunden</option>
+            <option value = "6">6 Stunden</option>
+            <option value = "7">7 Stunden</option>
+            <option value = "8">8 Stunden</option>
+            <option value = "9">9 Stunden</option>
+            <option value = "10">10 Stunden</option>
+            <option value = "11">11 Stunden</option>
+            <option value = "12">12 Stunden</option>
+
+          </select>
+
+          <br>
+          <br>
+          <label for="end_time">Stunden seit letztem Alkoholkonsum</label>
+          <select onchange="compareTime()" name="end_time" id="end_time">
+            <option value = "0">0 Stunden</option>
+            <option value = "1">1 Stunde</option>
+            <option value = "2">2 Stunden</option>
+            <option value = "3">3 Stunden</option>
+            <option value = "4">4 Stunden</option>
+            <option value = "5">5 Stunden</option>
+            <option value = "6">6 Stunden</option>
+            <option value = "7">7 Stunden</option>
+            <option value = "8">8 Stunden</option>
+            <option value = "9">9 Stunden</option>
+            <option value = "10">10 Stunden</option>
+            <option value = "11">11 Stunden</option>
+            <option value = "12">12 Stunden</option>
+
+          </select>
+          <p id="meldung"></p>
+
+
+        </fieldset>
+
+        <fieldset>
+          <legend>Blutalkoholgehalt und Abbauzeit berechnen</legend>
+          <button type="submit" name ="berechnen" id="berechnen">Berechnen</button>
+        </fieldset>
+
+      </form>
+    </section>
+
+    <!-- Anforderung: Canvas mit mindestens zehn Operationen -->
+    <section id="canvas" class= "w3-container w3-content w3-light-grey">
+      <h3 class="ueberschriften">Canvas</h3>
+      
+      <canvas id="my_canvas" width="300" height="200"></canvas>
+      <script src ="js/canvas.js"></script>
+      
+
+    </section>
+    <!-- Anforderung: Implementation einer Clientseitigen reaktiven Berechnung mittels vue.js -->
+    <section id = "zusatztechnik" class= "w3-container w3-content w3-light-grey">
+
+      <h3 class="ueberschriften">Zusatztechnik</h3>
+      <p>Real-Time Berechnung der getrunkenen Alkoholmenge und Empfehlung des täglichen Konsums</p>
+      
+
+      <form id="eingabe">
+        <h4>Eingabe</h4>    
+        <select v-model="sex" id="geschlecht">
+          <option value = "0">Wählen Sie ein Geschlecht</option>
+          <option value ="männlich">Männlich</option>
+          <option value ="weiblich">Weiblich</option>
+        </select>
+        
+        <div v-if="sex == '0'"></div>
+        <div v-else-if="sex == 'männlich'">Für Männer empfiehlt sich ein Konsum von nicht mehr als 30g pro Tag</div>
+        <div v-else>Für Frauen empfiehlt sich ein Konsum von nicht mehr als 20g pro Tag</div>
+        <br>
+
+      </form>
+      
+      <script>
+          new Vue ({el: '#eingabe', data: {sex: '0'}});
+      </script>
+
+      <div style="overflow-x:auto;">
+        <table id="eingabe_getraenke">
+          <tr>
+              <th>Anzahl</th>
+              <th>Getränkeart</th>
+              <th>Menge pro Einheit</th>
+              <th>Summe pro Getränk</th>
+              
+          </tr>
+          <tr v-for="item in items">
+            <td>
+                <input v-model="item.anzahl" type="number" min=0 style="width: 3em"></td>
+            <td>{{ item.getraenk }}</td>
+            <td>{{item.menge.toFixed(1)}} Gramm</td>
+            <td>{{ (item.anzahl * item.menge).toFixed(1) }} Gramm</td>
+          </tr>
+          <tr>
+
+              <td></td>
+              <td><b>Total Alkoholmenge: {{sum.toFixed(1)}} Gramm</b></td>
+              <td></td>
+              <td></td>
+          </tr>
+      </table>
+      </div>
+
+       
+      <br>
+      <p>Ab einem wöchentlichen Konsum von mehr als 100 Gramm verkürzt sich statistisch die Lebensdauer um 6 Monate</p>
+      <p>Ab einem wöchentlichen Konsum von 350 Gramm verkürzt sich die statistische Lebenserwartung gar um vier bis fünf Jahre</p>
+      
+      <script>
+          let getraenke = {
+              items: [
+                  { anzahl: 0, getraenk: 'Kleines Bier (0.33 Liter ~ 5% Vol.)', menge: 13.2 },
+                  { anzahl: 0, getraenk: 'Grosses Bier (0.50 Liter ~ 5% Vol.)', menge: 20 },
+                  { anzahl: 0, getraenk: 'Glas Wein (0.20 Liter ~ 13% Vol.)',   menge: 19.2 },
+                  { anzahl: 0, getraenk: 'Shot Spirituosen (0.02 Liter ~ 40% Vol.)', menge: 6.4}
+              ]
+          };
+  
+        let berechnen_summe = new Vue({
+            el: '#eingabe_getraenke',
+            data: getraenke,
+            computed: {
+                sum: function () {
+                    let total = 0;
+                    for (let i = 0; i < this.items.length; ++i) {
+                        total += this.items[i].menge * this.items[i].anzahl;
+                    }
+                    return total;
+                }
+            }
+
+        });
+
+      </script>
+
+    </section>
+    
+  </article>
+ 
 </body>
+<footer class = "w3-container w3-content">
+  <p>MEP WEBT HS20 by Elias Camenzind</p>
+</footer>
 </html>
